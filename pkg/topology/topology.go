@@ -7,7 +7,6 @@
 package topology
 
 import (
-	"context"
 	"errors"
 	"io"
 	"time"
@@ -29,12 +28,13 @@ type Driver interface {
 	NeighborhoodDepth() uint8
 	SubscribePeersChange() (c <-chan struct{}, unsubscribe func())
 	io.Closer
+	Halter
 	Snapshot() *KadParams
 }
 
 type PeerAdder interface {
 	// AddPeers is called when peers are added to the topology backlog
-	AddPeers(ctx context.Context, addr ...swarm.Address) error
+	AddPeers(addr ...swarm.Address)
 }
 
 type ClosestPeerer interface {
@@ -64,11 +64,26 @@ type EachNeighbor interface {
 // EachPeerFunc is a callback that is called with a peer and its PO
 type EachPeerFunc func(swarm.Address, uint8) (stop, jumpToNext bool, err error)
 
+// PeerInfo is a view of peer information exposed to a user.
+type PeerInfo struct {
+	Address swarm.Address       `json:"address"`
+	Metrics *MetricSnapshotView `json:"metrics,omitempty"`
+}
+
+// MetricSnapshotView represents snapshot of metrics counters in more human readable form.
+type MetricSnapshotView struct {
+	LastSeenTimestamp          int64   `json:"lastSeenTimestamp"`
+	SessionConnectionRetry     uint64  `json:"sessionConnectionRetry"`
+	ConnectionTotalDuration    float64 `json:"connectionTotalDuration"`
+	SessionConnectionDuration  float64 `json:"sessionConnectionDuration"`
+	SessionConnectionDirection string  `json:"sessionConnectionDirection"`
+}
+
 type BinInfo struct {
-	BinPopulation     uint     `json:"population"`
-	BinConnected      uint     `json:"connected"`
-	DisconnectedPeers []string `json:"disconnectedPeers"`
-	ConnectedPeers    []string `json:"connectedPeers"`
+	BinPopulation     uint        `json:"population"`
+	BinConnected      uint        `json:"connected"`
+	DisconnectedPeers []*PeerInfo `json:"disconnectedPeers"`
+	ConnectedPeers    []*PeerInfo `json:"connectedPeers"`
 }
 
 type KadBins struct {
@@ -115,4 +130,10 @@ type KadParams struct {
 	Depth          uint8     `json:"depth"`          // current depth
 	Bins           KadBins   `json:"bins"`           // individual bin info
 	LightNodes     BinInfo   `json:"lightNodes"`     // light nodes bin info
+}
+
+type Halter interface {
+	// Halt the topology from initiating new connections
+	// while allowing it to still run.
+	Halt()
 }

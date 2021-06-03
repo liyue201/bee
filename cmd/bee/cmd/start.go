@@ -82,19 +82,20 @@ func (c *command) initStartCmd() (err error) {
 
 			beeASCII := `
 Welcome to the Swarm.... Bzzz Bzzzz Bzzzz
-                \     /
-            \    o ^ o    /
-              \ (     ) /
-   ____________(%%%%%%%)____________
-  (     /   /  )%%%%%%%(  \   \     )
-  (___/___/__/           \__\___\___)
-     (     /  /(%%%%%%%)\  \     )
-      (__/___/ (%%%%%%%) \___\__)
-              /(       )\
-            /   (%%%%%)   \
-                 (%%%)
-                   !                   `
 
+               .-.         .--''-.
+             .'   '.     /'       '
+             '.     '. ,'          |
+   _        o    '.o   ,'        _.-'
+ .\ /.       \.--./'. /.:. :._:.'
+< ~O~ >    .'    '._-': ': ': ': ':
+ '/_\'     :(.) (.) :  ': ': ': ': ':>-
+ \ | /      ' ____ .'_.:' :' :' :' :'
+  \|/        '\<>/'/ | | :' :' :'
+   |               \  \ \
+   |                '  ' '
+	
+		   `
 			fmt.Println(beeASCII)
 			logger.Infof("version: %v", bee.Version)
 
@@ -116,42 +117,43 @@ Welcome to the Swarm.... Bzzz Bzzzz Bzzzz
 			}
 
 			b, err := node.NewBee(c.config.GetString(optionNameP2PAddr), signerConfig.address, *signerConfig.publicKey, signerConfig.signer, c.config.GetUint64(optionNameNetworkID), logger, signerConfig.libp2pPrivateKey, signerConfig.pssPrivateKey, node.Options{
-				DataDir:                  c.config.GetString(optionNameDataDir),
-				DBCapacity:               c.config.GetUint64(optionNameDBCapacity),
-				DBOpenFilesLimit:         c.config.GetUint64(optionNameDBOpenFilesLimit),
-				DBBlockCacheCapacity:     c.config.GetUint64(optionNameDBBlockCacheCapacity),
-				DBWriteBufferSize:        c.config.GetUint64(optionNameDBWriteBufferSize),
-				DBDisableSeeksCompaction: c.config.GetBool(optionNameDBDisableSeeksCompaction),
-				APIAddr:                  c.config.GetString(optionNameAPIAddr),
-				DebugAPIAddr:             debugAPIAddr,
-				Addr:                     c.config.GetString(optionNameP2PAddr),
-				NATAddr:                  c.config.GetString(optionNameNATAddr),
-				EnableWS:                 c.config.GetBool(optionNameP2PWSEnable),
-				EnableQUIC:               c.config.GetBool(optionNameP2PQUICEnable),
-				WelcomeMessage:           c.config.GetString(optionWelcomeMessage),
-				Bootnodes:                c.config.GetStringSlice(optionNameBootnodes),
-				CORSAllowedOrigins:       c.config.GetStringSlice(optionCORSAllowedOrigins),
-				Standalone:               c.config.GetBool(optionNameStandalone),
-				TracingEnabled:           c.config.GetBool(optionNameTracingEnabled),
-				TracingEndpoint:          c.config.GetString(optionNameTracingEndpoint),
-				TracingServiceName:       c.config.GetString(optionNameTracingServiceName),
-				Logger:                   logger,
-				GlobalPinningEnabled:     c.config.GetBool(optionNameGlobalPinningEnabled),
-				PaymentThreshold:         c.config.GetString(optionNamePaymentThreshold),
-				PaymentTolerance:         c.config.GetString(optionNamePaymentTolerance),
-				PaymentEarly:             c.config.GetString(optionNamePaymentEarly),
-				ResolverConnectionCfgs:   resolverCfgs,
-				GatewayMode:              c.config.GetBool(optionNameGatewayMode),
-				BootnodeMode:             bootNode,
-				SwapEndpoint:             c.config.GetString(optionNameSwapEndpoint),
-				SwapFactoryAddress:       c.config.GetString(optionNameSwapFactoryAddress),
-				SwapInitialDeposit:       c.config.GetString(optionNameSwapInitialDeposit),
-				SwapEnable:               c.config.GetBool(optionNameSwapEnable),
-				FullNodeMode:             fullNode,
-				Transaction:              c.config.GetString(optionNameTransactionHash),
-				PostageContractAddress:   c.config.GetString(optionNamePostageContractAddress),
-				PriceOracleAddress:       c.config.GetString(optionNamePriceOracleAddress),
-				BlockTime:                c.config.GetUint64(optionNameBlockTime),
+				DataDir:                    c.config.GetString(optionNameDataDir),
+				CacheCapacity:              c.config.GetUint64(optionNameCacheCapacity),
+				DBOpenFilesLimit:           c.config.GetUint64(optionNameDBOpenFilesLimit),
+				DBBlockCacheCapacity:       c.config.GetUint64(optionNameDBBlockCacheCapacity),
+				DBWriteBufferSize:          c.config.GetUint64(optionNameDBWriteBufferSize),
+				DBDisableSeeksCompaction:   c.config.GetBool(optionNameDBDisableSeeksCompaction),
+				APIAddr:                    c.config.GetString(optionNameAPIAddr),
+				DebugAPIAddr:               debugAPIAddr,
+				Addr:                       c.config.GetString(optionNameP2PAddr),
+				NATAddr:                    c.config.GetString(optionNameNATAddr),
+				EnableWS:                   c.config.GetBool(optionNameP2PWSEnable),
+				EnableQUIC:                 c.config.GetBool(optionNameP2PQUICEnable),
+				WelcomeMessage:             c.config.GetString(optionWelcomeMessage),
+				Bootnodes:                  c.config.GetStringSlice(optionNameBootnodes),
+				CORSAllowedOrigins:         c.config.GetStringSlice(optionCORSAllowedOrigins),
+				Standalone:                 c.config.GetBool(optionNameStandalone),
+				TracingEnabled:             c.config.GetBool(optionNameTracingEnabled),
+				TracingEndpoint:            c.config.GetString(optionNameTracingEndpoint),
+				TracingServiceName:         c.config.GetString(optionNameTracingServiceName),
+				Logger:                     logger,
+				GlobalPinningEnabled:       c.config.GetBool(optionNameGlobalPinningEnabled),
+				PaymentThreshold:           c.config.GetString(optionNamePaymentThreshold),
+				PaymentTolerance:           c.config.GetString(optionNamePaymentTolerance),
+				PaymentEarly:               c.config.GetString(optionNamePaymentEarly),
+				ResolverConnectionCfgs:     resolverCfgs,
+				GatewayMode:                c.config.GetBool(optionNameGatewayMode),
+				BootnodeMode:               bootNode,
+				SwapEndpoint:               c.config.GetString(optionNameSwapEndpoint),
+				SwapFactoryAddress:         c.config.GetString(optionNameSwapFactoryAddress),
+				SwapLegacyFactoryAddresses: c.config.GetStringSlice(optionNameSwapLegacyFactoryAddresses),
+				SwapInitialDeposit:         c.config.GetString(optionNameSwapInitialDeposit),
+				SwapEnable:                 c.config.GetBool(optionNameSwapEnable),
+				FullNodeMode:               fullNode,
+				Transaction:                c.config.GetString(optionNameTransactionHash),
+				PostageContractAddress:     c.config.GetString(optionNamePostageContractAddress),
+				BlockTime:                  c.config.GetUint64(optionNameBlockTime),
+				DeployGasPrice:             c.config.GetString(optionNameSwapDeploymentGasPrice),
 			})
 			if err != nil {
 				return err

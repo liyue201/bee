@@ -1,6 +1,6 @@
 // Copyright 2020 The Swarm Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.package storage
+// license that can be found in the LICENSE file.
 
 // Package storage provides implementation contracts and notions
 // used across storage-aware components in Bee.
@@ -13,6 +13,7 @@ import (
 	"io"
 
 	"github.com/ethersphere/bee/pkg/swarm"
+	"github.com/syndtr/goleveldb/leveldb"
 )
 
 var (
@@ -173,6 +174,8 @@ type StateStorer interface {
 	Put(key string, i interface{}) (err error)
 	Delete(key string) (err error)
 	Iterate(prefix string, iterFunc StateIterFunc) (err error)
+	// DB returns the underlying DB storage.
+	DB() *leveldb.DB
 	io.Closer
 }
 

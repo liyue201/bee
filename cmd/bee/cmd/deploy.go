@@ -33,6 +33,7 @@ func (c *command) initDeployCmd() error {
 			factoryAddress := c.config.GetString(optionNameSwapFactoryAddress)
 			swapInitialDeposit := c.config.GetString(optionNameSwapInitialDeposit)
 			swapEndpoint := c.config.GetString(optionNameSwapEndpoint)
+			deployGasPrice := c.config.GetString(optionNameSwapDeploymentGasPrice)
 
 			stateStore, err := node.InitStateStore(logger, dataDir)
 			if err != nil {
@@ -74,6 +75,7 @@ func (c *command) initDeployCmd() error {
 				chainID,
 				transactionService,
 				factoryAddress,
+				nil,
 			)
 			if err != nil {
 				return err
@@ -90,6 +92,7 @@ func (c *command) initDeployCmd() error {
 				transactionService,
 				chequebookFactory,
 				swapInitialDeposit,
+				deployGasPrice,
 			)
 
 			return err
